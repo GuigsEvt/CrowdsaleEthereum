@@ -1,9 +1,11 @@
 import assertJump from './helpers/expectThrow';
 
 const GuigsToken = artifacts.require('../contracts/GuigsToken.sol');
+const Ownable = artifacts.require('../contracts/Ownable.sol');
 
 contract('GuigsToken', (accounts) => {
     let token;
+    let ownable;
 
     let owner = accounts[0];
     let spender = accounts[1];
@@ -40,6 +42,32 @@ contract('GuigsToken', (accounts) => {
 
         it('should have minting mode turned on', async () => {
             assert(await token.isMinting());
+        });
+
+    });
+
+    // Test to change the ownership of the contract
+    describe('ownership', async () => {
+
+        it('should not accept changement of ownership to null or 0 address', async () => {
+            ownable = await Ownable.new();
+            await assertJump(ownable.transferOwnership(null, { from : owner }));
+            await assertJump(ownable.transferOwnership(0, { from : owner }));
+
+            assert.equal(owner, await ownable.owner());
+        });
+
+        it('should update new owner after transferOwnership', async () => {
+            ownable = await Ownable.new();
+            await ownable.transferOwnership(to1);
+            assert.equal(await ownable.owner(), to1);
+        });
+
+        it('should allow the new owner to access owner only functions', async () => {
+          await token.transferOwnership(to1);
+
+          await assertJump(token.endMinting());
+          await token.endMinting({ from : to1 });
         });
 
     });
@@ -220,6 +248,17 @@ contract('GuigsToken', (accounts) => {
             assert.equal(event.args.from, owner);
             assert.equal(event.args.to, 0);
             assert.equal(Number(event.args.value), tokenToBurn);
+        });
+
+        it('should log changement of ownership event when transferOwnership() is called', async () => {
+            ownable = await Ownable.new();
+            let result = await ownable.transferOwnership(to1);
+
+            assert.lengthOf(result.logs, 1);
+            let event = result.logs[0];
+            assert.equal(event.event, 'ChangementOwnership');
+            assert.equal(event.args._by, owner);
+            assert.equal(event.args._to, to1);
         });
 
     });

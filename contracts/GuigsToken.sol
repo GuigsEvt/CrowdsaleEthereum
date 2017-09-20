@@ -3,9 +3,8 @@ pragma solidity ^0.4.14;
 import "./Ownable.sol";
 import "./SafeMath.sol";
 import "./BasicToken.sol";
-import "./TokenHolder.sol";
 
-contract GuigsToken is ERC20, Ownable, BasicToken, TokenHolder {
+contract GuigsToken is ERC20, Ownable, BasicToken {
 
   /* Using SafeMath as library for safe operations for uint256 variables */
   using SafeMath for uint256;
