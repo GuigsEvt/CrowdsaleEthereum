@@ -72,10 +72,10 @@ contract GuigsToken is ERC20, Ownable, BasicToken {
     return super.transferFrom(_from, _to, _value);
   }
 
-  /// @notice Burn function that could be useful for further processes of the token contract
+  /// @notice Burn function that could be useful for further processes of the token contract. Can be called from the owner to reduce market cap.
   /// @dev Allows token holders to burn tokens
   /// @param _value uint256 the amount of tokens that must be burned
-  function burn(uint256 _value) onlyAfterMinting returns (bool success){
+  function burn(uint256 _value) external onlyOwner onlyAfterMinting returns (bool success){
     balances[msg.sender] = balances[msg.sender].sub(_value);
     totalSupply = totalSupply.sub(_value);
     Transfer(msg.sender, 0x0, _value);

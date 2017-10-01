@@ -10,10 +10,10 @@ contract Ownable {
   }
 
   /// @dev Reverts if called by any account other than the owner.
-    modifier onlyOwner() {
-      require(msg.sender == owner);
-      _;
-    }
+  modifier onlyOwner() {
+    require(msg.sender == owner);
+    _;
+  }
 
   function transferOwnership(address newOwner) external onlyOwner {
     require(newOwner != address(0));

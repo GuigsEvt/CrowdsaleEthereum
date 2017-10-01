@@ -2,7 +2,7 @@
 
 This project is based on several crowdsale that has happened and tries to take the best of each one. It also tries to provide as much test as possible.
 
-The crowdsale allows whitelist for participation for either KYC purposes or pre-ICO. All the variable are set randomly you can put the one that suits you the more.
+The crowdsale is basic crowdsale without any whitelist or whatsever. In future differents type of crowdsale will come under the crowdsale examples folder.
 
 The token is made burnable and has some few characteristics for example only.
 
@@ -25,11 +25,8 @@ $ npm install
 ### Test
 
 ```sh
-# Launch an testrpc instance on a terminal
-$ testrpc
-
 # Test the contract
-$ truffle test
+$ ./scripts/test.sh
 ```
 
 ## Security

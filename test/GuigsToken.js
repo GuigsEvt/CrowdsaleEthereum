@@ -80,26 +80,16 @@ contract('GuigsToken', (accounts) => {
         it('should update totalSupply after burn()',  async () => {
 
             await token.mint(owner, transferredFunds);
-            await token.mint(to1, transferredFunds);
-            await token.mint(to2, transferredFunds);
             await token.endMinting();
 
-            let totalSupply = transferredFunds + transferredFunds + transferredFunds;
+            assert.equal((await token.totalSupply()).toNumber(), transferredFunds);
 
-            assert.equal((await token.totalSupply()).toNumber(), totalSupply);
-
-            await token.burn(tokenToBurn);
-            assert.equal((await token.totalSupply()).toNumber(), totalSupply - tokenToBurn);
-
-            await token.burn(tokenToBurn, { from : to1 });
-            assert.equal((await token.totalSupply()).toNumber(), totalSupply - tokenToBurn - tokenToBurn);
-
-            await token.burn(tokenToBurn, { from : to2 });
-            assert.equal((await token.totalSupply()).toNumber(), totalSupply - tokenToBurn - tokenToBurn - tokenToBurn);
+            await token.burn(tokenToBurn, { from : owner });
+            assert.equal((await token.totalSupply()).toNumber(), transferredFunds - tokenToBurn);
 
         });
 
-        it('should not allow burn() of amount greater that totalSupply', async () => {
+        it('should not allow burn() of amount greater than totalSupply', async () => {
 
             await token.mint(owner, transferredFunds);
             await token.endMinting();
@@ -113,6 +103,14 @@ contract('GuigsToken', (accounts) => {
 
           await assertJump(token.burn(tokenToBurn, { from : to1 }));
         });
+
+        it('should not allow address different than owner to burn tokens', async () => {
+          await token.mint(owner, transferredFunds);
+          await token.mint(to1, tokenToMintForBurn);
+
+          await assertJump(token.burn(tokenToMintForBurn, { from : to1 }));
+        });
+
     });
 
     describe('minting', async () => {
