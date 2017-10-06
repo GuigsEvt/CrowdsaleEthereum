@@ -21,7 +21,7 @@ module.exports = {
     }
 
     while (web3.eth.blockNumber < number) {
-      await advanceBlock();
+      await this.advanceBlock();
     }
   },
 
@@ -37,7 +37,7 @@ module.exports = {
       console.log('Waiting ', blocksLeft, ' blocks..');
 
     if (blockNumber > web3.eth.blockNumber)
-      await advanceToBlock.advanceToBlock(blockNumber);
+      await this.advanceToBlock(blockNumber);
     else
       return false; // no need to wait
   }

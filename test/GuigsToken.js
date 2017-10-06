@@ -1,4 +1,4 @@
-import assertJump from './helpers/expectThrow';
+/*import assertJump from './helpers/expectThrow';
 
 const GuigsToken = artifacts.require('../contracts/GuigsToken.sol');
 const Ownable = artifacts.require('../contracts/Ownable.sol');
@@ -261,3 +261,4 @@ contract('GuigsToken', (accounts) => {
 
     });
 });
+*/

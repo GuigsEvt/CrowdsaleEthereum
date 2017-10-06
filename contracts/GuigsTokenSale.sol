@@ -55,7 +55,7 @@ contract GuigsTokenSale is CappedCrowdsale, FinalizableCrowdsale {
     tokenPresaleDistribution = _tokenPresaleDistribution;
   }
 
-  // override buyTokens function to allow only whitelisted addresses buy
+  // override buyTokens function to allow only whitelisted addresses buy 
   function buyTokens(address beneficiary) payable {
     super.buyTokens(beneficiary);
   }
